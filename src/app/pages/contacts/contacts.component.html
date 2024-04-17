@@ -1,0 +1,37 @@
+<p>contacts works!</p>
+<div class="flex justify-content-between">
+  <div class="search">
+    <input nz-input placeholder="Basic usage" [(ngModel)]="value" type="number" />
+  </div>
+
+  <button nz-button nzType="primary">Agregar</button>
+</div>
+<div class="p-5">
+  <nz-table #basicTable [nzData]="listOfData"  >
+    <caption>Contact Information</caption>
+    <thead>
+      <tr>
+        <th>FirstName</th>
+        <th>Lastname</th>
+        <th>Address</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (data of basicTable.data; track $index) {
+        <tr>
+          <td>{{ data.firstName }}</td>
+          <td>{{ data.lastName }}</td>
+          <td>{{ data.address }}</td>
+          <td>
+            <a>Action 一 {{ data.firstName }}</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a>Delete</a>
+          </td>
+        </tr>
+      }
+
+    </tbody>
+  </nz-table>
+  <!-- <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalRecords" (nzPageIndexChange)="pageIndexChange($event)"></nz-pagination> -->
+</div>
