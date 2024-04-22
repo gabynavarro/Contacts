@@ -1,37 +1,58 @@
 <p>contacts works!</p>
 <div class="flex justify-content-between">
   <div class="search">
-    <input nz-input placeholder="Basic usage" [(ngModel)]="value" type="number" />
+    <input (keyup)="search()" nz-input placeholder="Buscar por nombre" [(ngModel)]="value" type="text" />
   </div>
-
-  <button nz-button nzType="primary">Agregar</button>
+  <button (click)="showModal()" nz-button nzType="primary">Agregar</button>
 </div>
 <div class="p-5">
   <nz-table #basicTable [nzData]="listOfData"  >
     <caption>Contact Information</caption>
     <thead>
       <tr>
-        <th>FirstName</th>
-        <th>Lastname</th>
-        <th>Address</th>
+        <th>Nombre</th>
+        <th>telefono</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
       @for (data of basicTable.data; track $index) {
         <tr>
-          <td>{{ data.firstName }}</td>
-          <td>{{ data.lastName }}</td>
-          <td>{{ data.address }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.phone }}</td>
+
           <td>
-            <a>Action 一 {{ data.firstName }}</a>
+            <a>Action 一 {{ data.name }}</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a>Delete</a>
+            <a
+                      nz-popconfirm
+                      nzPopconfirmTitle="¿Seguro que desea eliminar el contacto?"
+                      nzPopconfirmPlacement="bottom"
+                      (nzOnConfirm)="deleteContact(data._id || '')"
+                    >Delete</a>
           </td>
         </tr>
       }
-
     </tbody>
   </nz-table>
-  <!-- <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalRecords" (nzPageIndexChange)="pageIndexChange($event)"></nz-pagination> -->
+  <nz-pagination [nzPageIndex]="1" [nzTotal]="10" [nzPageSize]="5"></nz-pagination>
+    <!-- <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalRecords" (nzPageIndexChange)="pageIndexChange($event)"></nz-pagination> -->
+
 </div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <input nz-input placeholder="Nombre" [(ngModel)]="nombre" type="text" />
+    <input class="mt-3" nz-input placeholder="Teléfono" [(ngModel)]="telefono" type="text" />
+    <input class="mt-3" nz-input placeholder="Teléfono" [(ngModel)]="telefono" type="text" />
+
+    <!-- <input nz-input placeholder="Nombre" [(ngModel)]="myContact.firstName" type="text" />
+    <input nz-input placeholder="Apellido" [(ngModel)]="myContact.lastName" type="text" /> -->
+    <!-- <input nz-input placeholder="Celular" [(ngModel)]="myContact.cell" type="text" />
+    <input nz-input placeholder="Tel. Linea" [(ngModel)]="myContact.phoneLine" type="text" /> -->
+    <!-- <input nz-input placeholder="DNI" [(ngModel)]="myContact.dni" type="text" />
+    <input nz-input placeholder="Direccion" [(ngModel)]="myContact.address" type="text" />
+    <input nz-input placeholder="Provincia" [(ngModel)]="myContact.province" type="text" />
+    <input nz-input placeholder="Pais" [(ngModel)]="myContact.country" type="text" />
+    <input nz-input placeholder="CP" [(ngModel)]="myContact.zipcode" type="text" /> -->
+  </ng-container>
+</nz-modal>
